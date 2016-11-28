@@ -1,0 +1,409 @@
+[x,y]= dsolve('D2x=0,D2y=-9.8,x(0),y(0)=10,Dx(0)=3,dy(0)=3.,dy(0)');
+tt=0:0.1:8;
+xx=subs(y,'t',tt);
+yy=subs(y,'t',tt);
+
+ for k=1:enyth(tt);
+plot(xx(1:k),yy(1:k));
+head on
+plot(xx(k), yy(k),'0');
+axis([0,10,0,20]);
+M(k)=getframe;
+hold offend;
+movie(M,3);
+
+-------------------------------------------
+
+function varargout = AMModDemod_Demo(varargin)
+
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @AMModDemod_Demo_OpeningFcn, ...
+                   'gui_OutputFcn',  @AMModDemod_Demo_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before AMModDemod_Demo is made visible.
+function AMModDemod_Demo_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to AMModDemod_Demo (see VARARGIN)
+
+% Choose default command line output for AMModDemod_Demo
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes AMModDemod_Demo wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = AMModDemod_Demo_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% --- Executes on slider movement.
+function slider1_Callback(hObject, eventdata, handles)
+% hObject    handle to slider1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+vm=get(handles.slider1,'value'); % Amplitude of Modulating Signal
+
+fm=get(handles.slider2,'value'); % Frequency of Modulating Signal
+
+handles.ejex=0:1/1000:1;
+axes(handles.axes1)
+set(handles.text3,'string',vm);
+
+set(handles.text4,'string',fm);
+
+% axes(handles.axes1)
+v_m=vm*cos(2*pi*fm*handles.ejex); % Modulating Signal Waveform
+
+plot(handles.ejex,v_m,'-','Color',[0 1 0]);
+%y_c=cos(2*pi*100*handles.ejex);
+% title('MOD SIGNAL');
+ylabel('Amplitude'); 
+xlabel('Time (s)'); % Display Modulating Signal
+
+% --- Executes during object creation, after setting all properties.
+function slider1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider2_Callback(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+vm=get(handles.slider1,'value');
+
+fm=get(handles.slider2,'value');
+
+handles.ejex=0:1/1000:1;
+axes(handles.axes1)
+set(handles.text3,'string',vm);
+
+set(handles.text4,'string',fm);
+
+% axes(handles.axes1)
+v_m=vm*cos(2*pi*fm*handles.ejex);
+
+plot(handles.ejex,v_m,'-','Color',[0 1 0]);
+%y_c=cos(2*pi*100*handles.ejex);
+% title('Mod SIGNAL');
+ylabel('Amplitude');
+xlabel('Time (s)');
+
+% --- Executes during object creation, after setting all properties.
+function slider2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider3_Callback(hObject, eventdata, handles)
+% hObject    handle to slider3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+vc=get(handles.slider3,'value'); % Carrier Signal Amplitude
+fc=get(handles.slider4,'value');  % Carrier Signal Frequency
+
+handles.ejex=0:1/1000:1;
+axes(handles.axes2)
+set(handles.text12,'string',vc);
+set(handles.text14,'string',fc);
+% axes(handles.axes1)
+v_c=vc*cos(2*pi*fc*handles.ejex); % Carrier signal Waveform
+
+plot(handles.ejex,v_c,'-','Color',[0 1 0]);
+%y_c=cos(2*pi*100*handles.ejex);
+% title('CARRIER SIGNAL');
+ylabel('Amplitude');
+xlabel('Time (s)');
+% --- Executes during object creation, after setting all properties.
+function slider3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider4_Callback(hObject, eventdata, handles)
+% hObject    handle to slider4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+vc=get(handles.slider3,'value');
+fc=get(handles.slider4,'value');
+
+handles.ejex=0:1/1000:1;
+axes(handles.axes2)
+set(handles.text12,'string',vc);
+set(handles.text14,'string',fc);
+% axes(handles.axes1)
+v_c=vc*cos(2*pi*fc*handles.ejex); %Carrier Signal Waveform
+
+plot(handles.ejex,v_c,'-','Color',[0 1 0]);
+%y_c=cos(2*pi*100*handles.ejex);
+% title('CARRIER SIGNAL');
+ylabel('Amplitude');
+xlabel('Time (s)'); %Display Carrier Signal
+% --- Executes during object creation, after setting all properties.
+function slider4_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+vm=get(handles.slider1,'value');
+fm=get(handles.slider2,'value');
+
+handles.ejex=0:1/1000:1;
+
+v_m=vm*cos(2*pi*fm*handles.ejex);
+
+vc=get(handles.slider3,'value');
+fc=get(handles.slider4,'value');
+v_c=vc*cos(2*pi*fc*handles.ejex);
+
+v_am=v_m.*v_c; %  AM Signal Generation
+
+axes(handles.axes3)
+
+plot(handles.ejex,v_am);
+
+
+title('AM Envelope');
+ylabel('Amplitude'); % Time Domain Representation Of AM Signal 
+xlabel('Time (s)');
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+vm=get(handles.slider1,'value');
+fm=get(handles.slider2,'value');
+
+handles.ejex=0:1/1000:1;
+
+v_m=vm*cos(2*pi*fm*handles.ejex);
+
+vc=get(handles.slider3,'value');
+fc=get(handles.slider4,'value');
+v_c=vc*cos(2*pi*fc*handles.ejex);
+
+v_am=v_m.*v_c; % AM Signal Generation
+
+w=v_am;
+Ts=1/1000;
+N=256;
+y = fft(w(1:N)); % y contains 256 complex amplitudes
+
+m = abs(y); % m = magnitude of sinusoids
+%
+% plot spectrum 0....fs/2
+ff=(-N/2:N/2-1)/(Ts*N);
+fws=fftshift(m);
+%n=floor(log(length(w))/log(2)); 
+% N=2^n; 
+% fw=abs(fft (w(1:N)));
+% ssf=(-N/2:N/2-1)/(Ts*N);
+% % fws=fftshift(fw); %
+axes(handles.axes4)
+plot(ff,fws);
+xlabel('Frequency')
+ylabel('Magnitude');
+
+title('Spectrum of AM signal'); % Freqency Domain Representation of AM Signal
+
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+vm=get(handles.slider1,'value');
+fm=get(handles.slider2,'value');
+
+handles.ejex=0:1/1000:1;
+
+v_m=vm*cos(2*pi*fm*handles.ejex);
+
+vc=get(handles.slider3,'value');
+fc=get(handles.slider4,'value');
+v_c=vc*cos(2*pi*fc*handles.ejex);
+
+v_am=v_m.*v_c;
+
+% filt_ord = 5 ;         % filter order
+% fc_filt=500;
+% Fs_filt=1000;
+% fcut = fc_filt /2; 
+% s=v_am;
+% % absolute value of the modulated signal
+% s_abs = abs(s); 
+% 
+% % filtering with butterworth
+% [b, a] = butter(filt_ord, 2*fcut / Fs_filt, 'low'); 
+% %freqz(b,a,fcut,fs),title('frequency responce of the LPF');
+% % s_filt = filter(b, a, s_abs);
+% 
+% s_filt = filtfilt(b, a, s_abs);
+% % remove the means
+% s_rmvmn = (s_filt - mean(s_filt));
+% 
+% %biasing the signal aroung -1 and 1 V
+% s_demod = s_rmvmn / max(abs(s_rmvmn));
+
+y=v_am;
+fs=1000; % Specify Sampling Freqency
+x_out = demod(y,fc,fs,'am'); % Demodulate AM Signal
+
+axes(handles.axes5)
+
+plot(handles.ejex,x_out); % Dispaly AM Demodulator Output
+
+
+------------------------------------------------------------------------
+
+function amsys(fc,fm,ma)
+fc=80;fm=10;ma=0.2;
+Ac=1/ma;fs=4*fc;wc=2*pi*fc;wm=2*pi*fm;k=2;
+
+t=0:0.099/fc:k;
+%==========================================================================
+vm=cos(wm*t);
+vc=Ac*cos(wc*t);
+vam=ammod(vm,fc,fs);                  %Ac*(1+ma*cos(wm*t)).*cos(wc*t);
+%==========================================================================
+vamn=awgn(vam,25,3);           %Vamn= Vam + noise
+%==========================================================================
+vamd=amdemod(vamn,fc,fs);               %(vamf-vc)./cos(wc*t);
+%==========================================================================
+[b,a] = butter(5,0.1,'low'); 
+vamf = filter(b,a,vamd);        %Vamf  filted by lowpass filter
+%==========================================================================
+Y = fft(vm,256);
+Pyy = Y.*conj(Y)/256;
+%=====================================
+X = fft(vamf,256);
+Pxx = X.*conj(X)/256;
+f = 1000/256*(0:127);
+%=====================================
+figure(1);
+subplot(2,1,1);plot(f,Pyy(1:128),'r');title('Power  spectral density Base band');xlabel('Frequency (Hz)');ylabel('dB')
+subplot(2,1,2);plot(f,Pxx(1:128),'g');title('Power spectral density AM Demod');xlabel('Frequency (Hz)');ylabel('dB')
+
+%==========================================================================
+figure(2);
+subplot(5,1,1);plot(t,vm,'g');axis([0 k -1.5*Ac 1.5*Ac]);
+hold on;plot(t,vc,'r');%title('Base band & Carrier wave');
+               legend('Base band','Carrier wave');
+subplot(5,1,2);plot(t,vam);axis([0 k -1.5*Ac 1.5*Ac]);legend('AM mod');               
+subplot(5,1,3);plot(t,vamn,'y');axis([0 k -1.5*Ac 1.5*Ac]);legend('AM transmited');
+subplot(5,1,4);plot(t,vamd,'m');axis([0 k -1.5*Ac 1.5*Ac]);legend('AM demod');
+
+subplot(5,1,5);plot(t,vamf,'k');axis([0 k -1.5*Ac 1.5*Ac]);legend('AM demodulation'); 
+     
+     
+     ------------------------------------------------------------------------------------------------
+     
+function fmsys(f,fc,fs,dev)
+f=100;fc=800;fs=10*fc;dev=20;
+
+t=0:0.001:0.5;
+%=====================================
+x=cos(2*pi*f*t);
+c=cos(2*pi*fc*t);
+y=fmmod(x,fc,fs,dev);
+
+dy=awgn(y,5,'measured');
+dyn=fmdemod(dy,fc,fs,dev);
+[b,a] = butter(10,0.1); 
+dyn1 = filter(b,a,dyn);
+%=====================================
+X = fft(x,512);
+Pxx = X.* conj(X) / 512;
+Y = fft(dyn1,512);
+Pyy = Y.* conj(Y) / 512;
+f = 1000*(0:256)/512;
+figure(2);
+subplot(2,1,1);plot(f,Pxx(1:257),'g');title('Frequency content of Basseband ');xlabel('frequency (Hz)')
+subplot(2,1,2);plot(f,Pyy(1:257),'r');title('Frequency content of FM');xlabel('frequency (Hz)')
+
+%=====================================
+figure(1);
+subplot(5,1,1);plot(t,x,'r');hold on;plot(t,c,'g');legend('base band','carrier wave');;title('base band & carrier wave');
+subplot(5,1,2);plot(t,y,'y');title('FM modulation');
+subplot(5,1,3);plot(t,dy,'g');axis([0 0.5 -1 1]);title('FM modulation + AWGN');
+subplot(5,1,4);plot(t,dyn);axis([0 0.5 -1.3 1.3]);title('FM demodulation');
+subplot(5,1,5);plot(t,dyn1,'r');axis([0 0.5 -1.3 1.3]);title('FM demodulation filter');
+
+
+------------------------------------------------------------------------------------------------------------
