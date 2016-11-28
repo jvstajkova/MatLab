@@ -1,0 +1,37 @@
+y=dsolve('D2y+9*y=sin(t), y(0)=2, Dy(0)=-1')
+tt=0:0.05:12;
+yy=subs(y, 't', tt);
+plot(tt, yy)
+ 
+y =
+ 
+2*cos(3*t) - sin(3*t)/3 - sin(5*t)/24 + sin(7*t)/48 + sin(t)/16 - sin(3*t)*(cos(4*t)/24 - cos(2*t)/12 + 1/24)
+ 
+
+>> y=dsolve('D2y+9*y=sin(t), y(0)=2, Dy(0)=-1')
+tt=0:0.05:12;
+yy=subs(y, 't', tt);
+plot(tt, yy)
+ 
+y =
+ 
+2*cos(3*t) - sin(3*t)/3 - sin(5*t)/24 + sin(7*t)/48 + sin(t)/16 - sin(3*t)*(cos(4*t)/24 - cos(2*t)/12 + 1/24)
+ 
+>> y=dsolve('D2y+9*y=sin(t), y(0)=2, Dy(0)=-1')
+tt=0:0.05:100;
+yy=subs(y, 't', tt);
+plot(tt, yy)
+ 
+y =
+ 
+2*cos(3*t) - sin(3*t)/3 - sin(5*t)/24 + sin(7*t)/48 + sin(t)/16 - sin(3*t)*(cos(4*t)/24 - cos(2*t)/12 + 1/24)
+ 
+>> y=dsolve('D2y+9*y=sin(3*t), y(0)=2, Dy(0)=-1')
+tt=0:0.05:200;
+yy=subs(y, 't', tt);
+plot(tt, yy)
+ 
+y =
+ 
+2*cos(3*t) - (7*sin(3*t))/24 - sin(9*t)/72 - cos(3*t)*(t/6 - sin(6*t)/36)
+ 
